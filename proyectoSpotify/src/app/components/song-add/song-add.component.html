@@ -1,0 +1,53 @@
+<div *ngIf="identity && identity.role== 'ROLE_ADMIN'">
+  <div class="col-md-12">
+
+    <div class="col-md-6 border border-secondary p-4 m-4">
+      <h1> {{titulo}} </h1>
+
+      <div *ngIf="alertMessage">
+        <div class="alert alert-info" role="alert">
+          {{alertMessage}}
+        </div>
+      </div>
+
+      <form #formSong="ngForm" (submit)="onSubmit()">
+        <p>
+          <label class="font-weight-bold">Número:</label>
+          <input type="text" #number="ngModel" name="number" [(ngModel)]="song.number" class="form-control" required />
+          <span *ngIf="!number.valid && number.touched">El Número es obligatorio</span>
+        </p>
+
+        <p>
+          <label class="font-weight-bold">Titulo:</label>
+          <input type="text" #name="ngModel" name="name" [(ngModel)]="song.name" class="form-control" required />
+          <span *ngIf="!name.valid && name.touched">El titulo es obligatorio</span>
+        </p>
+
+        <p>
+          <label class="font-weight-bold">Duración:</label>
+          <input type="text" #duration="ngModel" name="duration" [(ngModel)]="song.duration" class="form-control"
+            required />
+          <span *ngIf="!duration.valid && duration.touched">La descripción es obligatoria</span>
+        </p>
+
+        <div *ngIf="is_Edit">
+          <div *ngIf="loadedAudio">
+            <div class="song_file_for_edit" *ngIf="song && song.file != 'null'">
+              <audio controls>
+                <source src="{{urlAudio}}" type="audio/mpeg" />
+                El navegador web no soporta la reproducción de audio
+              </audio>
+            </div>
+            <p>
+              <label>Sube el fichero</label>
+              <input type="file" placeholder="Subir fichero..." (change)="fileChangeEvent($event)" />
+            </p>
+          </div>
+        </div>
+
+        <input type="submit" value="Añadir nueva cancion" [disabled]="!formSong.form.valid" class="btn btn-success" />
+
+      </form>
+    </div>
+  </div>
+</div>
